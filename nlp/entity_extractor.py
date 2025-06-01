@@ -28,7 +28,7 @@ def extract_named_entities(text: str) -> Dict[str, List[str]]:
 
     return entities
 
-def extract_entity_relationships(text: str, scope: str = "sentence") -> List[Tuple[str, str, str]]:
+def extract_entity_relationships(text: str, scope: str = "sentence") -> List[Tuple[str, str]]:
     doc = nlp(text)
     relations = set()
 

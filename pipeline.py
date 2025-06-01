@@ -35,7 +35,7 @@ def run_pipeline():
     
     # Step 3: Output
     timestamp = datetime.now().strftime("%Y-%m-%d")
-    output_file = f"news_digest_{timestamp}.json"
+    output_file = f"output/news_digest_{timestamp}.json"
     
     with open(output_file, 'w') as f:
         json.dump(results, f, indent=2)
