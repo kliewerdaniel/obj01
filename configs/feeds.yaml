@@ -1,7 +1,6 @@
 # Diverse Global News Sources Configuration
 # Diversity Metric: 0-10 scale measuring ideological, geographical, and cultural distance
 # RSS Feed Status: Verified active as of June 2025
-
 sources:
   # Western Liberal Democratic Perspective
   - name: "BBC World News"
@@ -11,7 +10,7 @@ sources:
     diversity_score: 6.5
     perspective: "Western Liberal, Public Broadcasting"
     region: "Europe/UK"
-    
+
   - name: "Reuters World News"
     type: "rss"
     url: "https://feeds.reuters.com/Reuters/worldNews"
@@ -37,14 +36,6 @@ sources:
     perspective: "Middle Eastern, Pan-Arab"
     region: "Middle East/Qatar"
 
-  - name: "Press TV World"
-    type: "rss"
-    url: "https://www.presstv.ir/rss.html"
-    lang: "en"
-    diversity_score: 9.2
-    perspective: "Iranian State, Anti-Western"
-    region: "Middle East/Iran"
-
   # Russian/Eastern European Perspective
   - name: "RT International"
     type: "rss"
@@ -63,14 +54,6 @@ sources:
     region: "Eastern Europe/Russia"
 
   # Chinese Perspective
-  - name: "Xinhua World News"
-    type: "rss"
-    url: "http://www.xinhuanet.com/english/rss/worldrss.xml"
-    lang: "en"
-    diversity_score: 9.8
-    perspective: "Chinese State, Communist Party Line"
-    region: "East Asia/China"
-
   - name: "China Daily World"
     type: "rss"
     url: "http://www.chinadaily.com.cn/rss/world_rss.xml"
@@ -104,23 +87,6 @@ sources:
     perspective: "Spanish Liberal, Ibero-American Focus"
     region: "Southern Europe/Spain"
 
-  # Latin American Perspectives
-  - name: "TeleSUR English"
-    type: "rss"
-    url: "https://www.telesurenglish.net/__export/rss/mundo.xml"
-    lang: "en"
-    diversity_score: 8.7
-    perspective: "Latin American Socialist, Anti-Imperialist"
-    region: "Latin America/Venezuela"
-
-  - name: "Prensa Latina"
-    type: "rss"
-    url: "https://www.prensa-latina.cu/index.php?option=com_content&task=view&idioma=2&id=rss"
-    lang: "en"
-    diversity_score: 9.1
-    perspective: "Cuban State, Socialist"
-    region: "Caribbean/Cuba"
-
   # African Perspectives
   - name: "News24 Africa"
     type: "rss"
@@ -129,14 +95,6 @@ sources:
     diversity_score: 7.5
     perspective: "South African, Pan-African"
     region: "Africa/South Africa"
-
-  - name: "AllAfrica Global"
-    type: "rss"
-    url: "https://allafrica.com/tools/headlines/rdf/latest/headlines.rdf"
-    lang: "en"
-    diversity_score: 7.8
-    perspective: "Pan-African, Development Focus"
-    region: "Africa/Continental"
 
   # Asian Perspectives
   - name: "The Hindu International"
@@ -162,24 +120,6 @@ sources:
     diversity_score: 7.1
     perspective: "Japanese Public Broadcasting, East Asian"
     region: "East Asia/Japan"
-
-  # Israeli Perspective
-  - name: "Haaretz International"
-    type: "rss"
-    url: "https://www.haaretz.com/cmlink/1.628752"
-    lang: "en"
-    diversity_score: 7.6
-    perspective: "Israeli Liberal, Critical of Government"
-    region: "Middle East/Israel"
-
-  # Turkish Perspective
-  - name: "TRT World"
-    type: "rss"
-    url: "https://www.trtworld.com/api/news/rss"
-    lang: "en"
-    diversity_score: 8.0
-    perspective: "Turkish State, Neo-Ottoman"
-    region: "Middle East/Turkey"
 
   # US Conservative Alternative
   - name: "Fox News World"
@@ -207,12 +147,3 @@ sources:
     diversity_score: 6.8
     perspective: "US Independent Left, Investigative"
     region: "North America/USA"
-
-# Diversity Analysis Summary:
-# - Geographic Distribution: 6 continents, 20+ countries
-# - Political Spectrum: Far-left (9.1) to Conservative (4.5)
-# - Government vs Independent: Mix of state, public, and private media
-# - Cultural Perspectives: Western, Eastern, Islamic, Socialist, Liberal Democratic
-# - Language Coverage: English, French, Spanish (easily translatable)
-# - Conflict Maximization: RT vs BBC, Xinhua vs Guardian, TeleSUR vs Fox News
-# - Average Diversity Score: 7.2/10 (High contradiction potential)

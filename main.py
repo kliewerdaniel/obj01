@@ -1,3 +1,4 @@
+import subprocess
 # main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -24,3 +25,13 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 @app.get("/graph")
 def serve_graph_page():
     return FileResponse("static/graph.html")
+
+@app.get("/api/run_pipeline")
+def run_pipeline():
+    try:
+        result = subprocess.run(["python", "pipeline.py"], capture_output=True, text=True, check=True)
+        return {"status": "success", "stdout": result.stdout, "stderr": result.stderr}
+    except subprocess.CalledProcessError as e:
+        return {"status": "error", "stdout": e.stdout, "stderr": e.stderr, "message": str(e)}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
