@@ -56,7 +56,7 @@ If you’ve ever felt overwhelmed by contradictory narratives, or unsure which s
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/objective-newsfeed.git
+git clone https://github.com/kliewerdaniel/obj01.git
 cd objective-newsfeed
 
 # Install Python dependencies
