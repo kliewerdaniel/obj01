@@ -9,3 +9,4 @@ atoma
 lxml-html-clean==0.1.1
 sentencepiece==0.2.0
 protobuf==4.25.3
+spacy
