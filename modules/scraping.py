@@ -22,7 +22,7 @@ def load_feeds(config_path="configs/feeds.yaml"):
     with open(config_path, 'r') as f:
         return yaml.safe_load(f)['sources']
 
-def fetch_articles(max_articles=5):
+def fetch_articles(max_articles=1):
     sources = load_feeds()
     articles = []
     

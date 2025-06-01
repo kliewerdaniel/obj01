@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-interface Article {
+export interface Article {
   title: string;
   source: string;
   summary: string;
@@ -8,46 +8,49 @@ interface Article {
   published: string;
 }
 
-const SummaryCard = ({ article }: { article: Article }) => {
+interface SummaryCardProps {
+  article: Article;
+}
+
+const SummaryCard: React.FC<SummaryCardProps> = ({ article }) => {
   return (
-    <div className="summary-card" style={{ marginBottom: '1rem', border: '1px solid #ccc', padding: '1rem' }}>
-      <h2>{article.title}</h2>
-      <p><strong>Source:</strong> {article.source}</p>
-      <p><strong>Summary:</strong> {article.summary}</p>
-      <a href={article.url} target="_blank" rel="noopener noreferrer">Read more</a>
-      <p><em>Published:</em> {new Date(article.published).toLocaleString()}</p>
+    <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6 mb-6 transition-shadow duration-300 ease-in-out hover:shadow-md">
+      <h2 className="text-xl font-semibold text-gray-900 leading-tight mb-3">
+        {article.title}
+      </h2>
+
+      <div className="text-sm text-gray-600 mb-3 flex items-center">
+        <strong className="mr-1 font-medium">Source:</strong> {article.source}
+      </div>
+
+      <p className="text-base text-gray-700 leading-relaxed mb-4">
+        {article.summary}
+      </p>
+
+      <div className="flex justify-between items-center text-sm">
+        <a
+          href={article.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 hover:underline flex items-center"
+        >
+          Read full article
+          
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M17 8l4 4m0 0l-4 4m4-4H3"
+            />
+     
+        </a>
+        <p> </p>
+        <span className="text-xs text-gray-500">
+          {new Date(article.published).toLocaleString()}
+        </span>
+      </div>
     </div>
   );
 };
 
-const Summaries = () => {
-  const [articles, setArticles] = useState<Article[]>([]);
-
-  useEffect(() => {
-    fetch('/api/graph/')
-      .then(res => {
-        if (!res.ok) throw new Error("Network response was not ok");
-        return res.json();
-      })
-      .then(data => {
-        console.log('Fetched data:', data);
-        setArticles(data.data);  // assumes response is { data: Article[] }
-      })
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
-
-  return (
-    <div style={{ padding: '2rem' }}>
-      <h1>Latest News Summaries</h1>
-      {articles.length === 0 ? (
-        <p>No articles found.</p>
-      ) : (
-        articles.map((article, index) => (
-          <SummaryCard key={index} article={article} />
-        ))
-      )}
-    </div>
-  );
-};
-
-export default Summaries;
+export default SummaryCard;

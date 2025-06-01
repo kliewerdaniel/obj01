@@ -1,50 +1,67 @@
 import React, { useEffect, useState } from 'react';
+import SummaryCard, { type Article } from '../components/SummaryCard';
 
-interface Article {
-  title: string;
-  source: string;
-  summary: string;
-  url: string;
-  published: string;
-}
-
-const SummaryCard = ({ article }: { article: Article }) => {
-  return (
-    <div className="summary-card">
-      <h2>{article.title}</h2>
-      <p><strong>Source:</strong> {article.source}</p>
-      <p><strong>Summary:</strong> {article.summary}</p>
-      <a href={article.url} target="_blank" rel="noopener noreferrer">Read more</a>
-      <p><em>Published:</em> {new Date(article.published).toLocaleString()}</p>
-    </div>
-  );
-};
-
-const Summaries = () => {
+const Summaries: React.FC = () => {
   const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
-    fetch('/api/graph/')  // Make sure this matches your FastAPI mount
-      .then(res => {
-        if (!res.ok) throw new Error("Network response was not ok");
-        return res.json();
-      })
-      .then(data => {
-        console.log('Fetched data:', data);
+    const fetchArticles = async () => {
+      try {
+        const response = await fetch('/api/graph/');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
         setArticles(data.data);
-      })
-      .catch(error => console.error('Error fetching data:', error));
+      } catch (err: any) {
+        setError(err.message || 'Something went wrong');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchArticles();
   }, []);
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+        <p className="text-gray-700 text-lg">Loading summaries...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+        <p className="text-red-600 text-lg">Error: {error}</p>
+      </div>
+    );
+  }
+
+  if (articles.length === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+        <p className="text-gray-700 text-lg">No articles found.</p>
+      </div>
+    );
+  }
+
   return (
-    <div>
-      <h1>Latest News Summaries</h1>
-      {articles.length === 0 ? (
-        <p>No articles found.</p>
-      ) : (
-        articles.map((article, index) => (
-          <SummaryCard key={index} article={article} />
-        ))
-      )}
+    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-4xl font-extrabold text-gray-900 mb-10 text-center tracking-tight sm:text-5xl">
+          📰 Curated News Summaries
+        </h1>
+
+        <div className="grid grid-cols-1 gap-6">
+          {articles.map((article) => (
+            <SummaryCard key={article.title} article={article} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
