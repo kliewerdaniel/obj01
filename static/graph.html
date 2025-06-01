@@ -5,11 +5,45 @@
   <title>Entity Knowledge Graph</title>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
-    body { margin: 0; font-family: sans-serif; }
-    svg { width: 100vw; height: 100vh; }
-    .node circle { fill: #69b3a2; stroke: #333; stroke-width: 1.5px; }
-    .link line { stroke: #aaa; stroke-width: 2px; }
-    text { font-size: 12px; fill: #333; pointer-events: none; }
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #f9f9f9;
+      overflow: hidden;
+    }
+
+    svg {
+      width: 100vw;
+      height: 100vh;
+      cursor: move;
+    }
+
+    .node circle {
+      fill: #4da6ff;
+      stroke: #004080;
+      stroke-width: 1.5px;
+    }
+
+    .node:hover circle {
+      fill: #2e8bce;
+    }
+
+    .link {
+      stroke: #ccc;
+      stroke-width: 1.5px;
+    }
+
+    .link-label {
+      font-size: 10px;
+      fill: #666;
+      pointer-events: none;
+    }
+
+    text {
+      font-size: 13px;
+      fill: #222;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
@@ -22,34 +56,50 @@
         const width = window.innerWidth;
         const height = window.innerHeight;
 
-        const simulation = d3.forceSimulation(data.nodes)
-          .force("link", d3.forceLink(data.links).id(d => d.id).distance(100))
-          .force("charge", d3.forceManyBody().strength(-300))
-          .force("center", d3.forceCenter(width / 2, height / 2));
+        const zoom = d3.zoom().on("zoom", (event) => {
+          g.attr("transform", event.transform);
+        });
 
-        const link = svg.append("g")
-          .attr("class", "link")
+        svg.call(zoom);
+
+        const g = svg.append("g");
+
+        const link = g.append("g")
+          .attr("stroke", "#ccc")
           .selectAll("line")
           .data(data.links)
-          .enter().append("line");
+          .join("line")
+          .attr("class", "link");
 
-        const node = svg.append("g")
-          .attr("class", "node")
+        const linkLabels = g.append("g")
+          .selectAll("text")
+          .data(data.links)
+          .join("text")
+          .attr("class", "link-label")
+          .text(d => d.label);
+
+        const node = g.append("g")
           .selectAll("g")
           .data(data.nodes)
-          .enter().append("g")
+          .join("g")
+          .attr("class", "node")
           .call(d3.drag()
             .on("start", dragstarted)
             .on("drag", dragged)
             .on("end", dragended));
 
         node.append("circle")
-          .attr("r", 10);
+          .attr("r", 12);
 
         node.append("text")
           .text(d => d.id)
-          .attr("x", 12)
+          .attr("x", 14)
           .attr("y", 4);
+
+        const simulation = d3.forceSimulation(data.nodes)
+          .force("link", d3.forceLink(data.links).id(d => d.id).distance(120))
+          .force("charge", d3.forceManyBody().strength(-400))
+          .force("center", d3.forceCenter(width / 2, height / 2));
 
         simulation.on("tick", () => {
           link
@@ -58,8 +108,11 @@
             .attr("x2", d => d.target.x)
             .attr("y2", d => d.target.y);
 
-          node
-            .attr("transform", d => `translate(${d.x},${d.y})`);
+          linkLabels
+            .attr("x", d => (d.source.x + d.target.x) / 2)
+            .attr("y", d => (d.source.y + d.target.y) / 2);
+
+          node.attr("transform", d => `translate(${d.x},${d.y})`);
         });
 
         function dragstarted(event, d) {
