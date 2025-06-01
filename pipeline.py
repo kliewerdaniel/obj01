@@ -1,5 +1,3 @@
-# Apply feedparser patch BEFORE importing anything else
-import feedparser_patch  # Add this at the very top
 
 from modules.scraping import fetch_articles
 from modules.translation import translate_article
