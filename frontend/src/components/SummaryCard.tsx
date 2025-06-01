@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink, Calendar, Globe } from 'lucide-react';
+import { ExternalLink, Calendar, Globe, Clock, ArrowUpRight } from 'lucide-react';
 
 export interface Article {
   title: string;
@@ -17,9 +17,33 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ article }) => {
   // Format published date into a human‐readable string
   const formattedDate = React.useMemo(() => {
     try {
+      const date = new Date(article.published);
+      const now = new Date();
+      const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+      
+      if (diffInHours < 1) {
+        return 'Just now';
+      } else if (diffInHours < 24) {
+        return `${diffInHours}h ago`;
+      } else if (diffInHours < 48) {
+        return 'Yesterday';
+      } else {
+        return date.toLocaleDateString(undefined, {
+          month: 'short',
+          day: 'numeric',
+          year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined,
+        });
+      }
+    } catch {
+      return article.published;
+    }
+  }, [article.published]);
+
+  const fullFormattedDate = React.useMemo(() => {
+    try {
       return new Date(article.published).toLocaleString(undefined, {
         year: 'numeric',
-        month: 'short',
+        month: 'long',
         day: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
@@ -30,84 +54,73 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ article }) => {
   }, [article.published]);
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-8">
-      <a
-        href={article.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={`Read full article: ${article.title}`}
-        className="group block w-full max-w-4xl bg-gray-900 border border-gray-800 rounded-none hover:border-gray-700 transition-all duration-300 hover:bg-gray-850"
-      >
-        {/* Content container with generous spacing */}
-        <div className="px-16 py-20 text-center space-y-16">
-          {/* Title Section */}
-          <header className="space-y-8">
-            <h2 className="text-5xl md:text-6xl font-light text-white leading-tight tracking-tight max-w-3xl mx-auto group-hover:text-gray-100 transition-colors duration-300">
-              {article.title || 'Untitled'}
-            </h2>
-          </header>
-
-          {/* Metadata Section */}
-          <div className="flex flex-col items-center space-y-12">
-            {/* Source */}
-            <div className="flex flex-col items-center space-y-4">
-              <div className="flex items-center justify-center w-12 h-12 bg-gray-800 rounded-full group-hover:bg-gray-750 transition-colors duration-300">
-                <Globe className="w-5 h-5 text-gray-400" aria-hidden="true" />
-              </div>
-              <div className="space-y-2">
-                <div className="text-xs uppercase tracking-widest text-gray-500 font-medium">
-                  Source
-                </div>
-                <div className="text-lg text-gray-300 font-light">
-                  {article.source || 'Unknown'}
-                </div>
-              </div>
-            </div>
-
-            {/* Divider */}
-            <div className="w-px h-16 bg-gray-800"></div>
-
-            {/* Published Date */}
-            <div className="flex flex-col items-center space-y-4">
-              <div className="flex items-center justify-center w-12 h-12 bg-gray-800 rounded-full group-hover:bg-gray-750 transition-colors duration-300">
-                <Calendar className="w-5 h-5 text-gray-400" aria-hidden="true" />
-              </div>
-              <div className="space-y-2">
-                <div className="text-xs uppercase tracking-widest text-gray-500 font-medium">
-                  Published
-                </div>
-                <time
-                  dateTime={article.published}
-                  className="text-lg text-gray-300 font-light"
-                >
-                  {formattedDate}
-                </time>
-              </div>
-            </div>
-          </div>
-
-          {/* Summary Section */}
-          {article.summary && (
-            <div className="space-y-8">
-              <div className="w-24 h-px bg-gray-800 mx-auto"></div>
-              <p className="text-xl md:text-2xl font-light text-gray-400 leading-relaxed max-w-2xl mx-auto group-hover:text-gray-300 transition-colors duration-300">
-                {article.summary}
-              </p>
-            </div>
-          )}
-
-          {/* Call to Action */}
-          <div className="pt-8">
-            <div className="inline-flex items-center space-x-3 px-8 py-4 bg-white text-black hover:bg-gray-100 transition-all duration-300 group-hover:scale-105">
-              <span className="text-sm uppercase tracking-wider font-medium">
-                Read Full Article
+    <article className="group relative">
+      {/* Background with glassmorphism effect */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/20 to-white/10 dark:from-white/10 dark:via-white/5 dark:to-white/2 backdrop-blur-xl rounded-2xl border border-white/20 dark:border-white/10 shadow-xl group-hover:shadow-2xl transition-all duration-500" />
+      
+      {/* Hover gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-indigo-500/0 group-hover:from-blue-500/5 group-hover:via-purple-500/5 group-hover:to-indigo-500/5 rounded-2xl transition-all duration-500" />
+      
+      {/* Content */}
+      <div className="relative p-8 space-y-6">
+        {/* Header with source badge */}
+        <header className="space-y-4">
+          {/* Source Badge */}
+          <div className="flex items-center justify-between">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-slate-100/80 to-slate-50/80 dark:from-slate-800/80 dark:to-slate-700/80 backdrop-blur-sm rounded-full border border-slate-200/50 dark:border-slate-600/50">
+              <Globe className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
+              <span className="text-xs font-medium text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+                {article.source || 'Unknown Source'}
               </span>
-              <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+            </div>
+            
+            {/* Time badge */}
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-gradient-to-r from-amber-50/80 to-orange-50/80 dark:from-amber-900/30 dark:to-orange-900/30 backdrop-blur-sm rounded-full border border-amber-200/50 dark:border-amber-700/50">
+              <Clock className="w-3 h-3 text-amber-600 dark:text-amber-400" />
+              <time 
+                dateTime={article.published}
+                title={fullFormattedDate}
+                className="text-xs font-medium text-amber-700 dark:text-amber-300"
+              >
+                {formattedDate}
+              </time>
             </div>
           </div>
+
+          {/* Title */}
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white leading-tight group-hover:text-slate-800 dark:group-hover:text-slate-100 transition-colors duration-300">
+            {article.title || 'Untitled Article'}
+          </h2>
+        </header>
+
+        {/* Summary */}
+        {article.summary && (
+          <div className="space-y-3">
+            <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-base group-hover:text-slate-600 dark:group-hover:text-slate-200 transition-colors duration-300">
+              {article.summary}
+            </p>
+          </div>
+        )}
+
+        {/* Action Area */}
+        <div className="pt-2">
+          <a
+            href={article.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group/link inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transform transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-blue-500/30"
+            aria-label={`Read full article: ${article.title}`}
+          >
+            <span className="text-sm">Read Full Story</span>
+            <ArrowUpRight className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-300" />
+          </a>
         </div>
-      </a>
-    </div>
+      </div>
+
+      {/* Subtle border highlight on hover */}
+      <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-gradient-to-br group-hover:from-blue-500/20 group-hover:via-purple-500/20 group-hover:to-indigo-500/20 transition-all duration-500 pointer-events-none" />
+    </article>
   );
 };
+
 export default SummaryCard;

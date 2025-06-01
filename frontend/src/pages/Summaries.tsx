@@ -153,8 +153,8 @@ const Summaries: React.FC = () => {
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto" />
         </div>
         {articles.map((article, index) => (
-          <div 
-            key={article.title}
+          <div
+            key={index} // Using index as a temporary key fix
             className="animate-fadeIn"
             style={{ animationDelay: `${index * 100}ms` }}
           >

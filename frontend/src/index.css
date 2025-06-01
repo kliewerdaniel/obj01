@@ -41,8 +41,8 @@
 
 body {
   margin: 0;
-  min-height: 100vh;
-  background: var(--bg-primary);
+  /* min-height: 100vh; */ /* Removed conflicting style */
+  /* background: var(--bg-primary); */ /* Removed conflicting style */
   color: var(--text-primary);
   display: flex;
   flex-direction: column;
@@ -105,15 +105,15 @@ p {
 
 /* App container with massive spacing */
 #app {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: clamp(3rem, 8vw, 8rem);
+  /* max-width: 1200px; */ /* Removed conflicting style */
+  /* margin: 0 auto; */ /* Removed conflicting style */
+  /* padding: clamp(3rem, 8vw, 8rem); */ /* Removed conflicting style */
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
   position: relative;
-  gap: 4rem;
+  /* gap: 4rem; */ /* Removed conflicting style */
 }
 
 /* Minimalist logo */
