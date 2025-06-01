@@ -63,7 +63,7 @@ cd obj01
 pip install -r requirements.txt
 
 # Run the pipeline (basic mode)
-python run_daily_pipeline.py
+python pipeline.py
 ```
 To explore specific modules or configure your own feeds, see the configs/ and docs/ directories.
 

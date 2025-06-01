@@ -1,0 +1,15 @@
+sources:
+  - name: "BBC Top Stories"
+    type: "rss"
+    url: "http://feeds.bbci.co.uk/news/rss.xml"
+    lang: "en"
+    
+  - name: "Le Monde"
+    type: "rss"
+    url: "https://www.lemonde.fr/rss/une.xml"
+    lang: "fr"
+    
+  - name: "Der Spiegel"
+    type: "rss"
+    url: "https://www.spiegel.de/international/index.rss"
+    lang: "de"

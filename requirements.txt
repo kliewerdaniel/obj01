@@ -1,0 +1,11 @@
+feedparser==6.0.10
+newspaper3k==0.2.8
+pyyaml==6.0.1
+argostranslate
+transformers
+torch
+nltk==3.8.1
+atoma
+lxml-html-clean==0.1.1
+sentencepiece==0.2.0
+protobuf==4.25.3
