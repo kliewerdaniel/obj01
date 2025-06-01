@@ -86,7 +86,3 @@ MIT License — Open for all, exploitable by none. Build tools for truth, not fo
 🙏 Acknowledgements
 
 Inspired by the ideal that truth should be decentralized, transparent, and navigable. Thanks to the open-source communities behind Whisper, sentence-transformers, Chroma, LangChain, and many others who make this possible.
-
----
-
-Let me know what you'd like to name the project officially (this draft uses **Objective Newsfeed**) or if you'd prefer a more poetic/technical name. I can also scaffold the folder structure next or write the `CONTRIBUTING.md`.
