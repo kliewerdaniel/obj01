@@ -1,6 +1,7 @@
 # obj01/nlp/entity_extractor.py
 
 import spacy
+import networkx as nx
 from typing import List, Dict, Tuple
 
 nlp = spacy.load("en_core_web_sm")
@@ -28,16 +29,6 @@ def extract_named_entities(text: str) -> Dict[str, List[str]]:
     return entities
 
 def extract_entity_relationships(text: str, scope: str = "sentence") -> List[Tuple[str, str, str]]:
-    """
-    Extract co-occurring entity relationships from the text.
-
-    Args:
-        text (str): The article text.
-        scope (str): Context scope for co-occurrence ('sentence' | 'paragraph')
-
-    Returns:
-        List[Tuple[str, str, str]]: Triples of co-occurring entities.
-    """
     doc = nlp(text)
     relations = set()
 
@@ -50,7 +41,6 @@ def extract_entity_relationships(text: str, scope: str = "sentence") -> List[Tup
 
     for segment in segments:
         entities = [ent.text for ent in segment.ents if ent.label_ in {"PERSON", "ORG", "GPE", "LOC"}]
-        # Remove duplicates in a single segment
         entities = list(dict.fromkeys(entities))
 
         for i in range(len(entities)):
@@ -59,3 +49,41 @@ def extract_entity_relationships(text: str, scope: str = "sentence") -> List[Tup
                 relations.add((e1, "co_occurs_with", e2))
 
     return list(relations)
+
+def build_networkx_graph(triples: List[Tuple[str, str, str]]) -> nx.Graph:
+    """
+    Convert triples into a NetworkX graph.
+
+    Args:
+        triples (List[Tuple[str, str, str]]): List of (entity1, relation, entity2)
+
+    Returns:
+        nx.Graph: A simple undirected graph
+    """
+    G = nx.Graph()
+
+    for e1, relation, e2 in triples:
+        G.add_node(e1)
+        G.add_node(e2)
+        G.add_edge(e1, e2, label=relation)
+
+    return G
+
+def export_triples_as_cypher(triples: List[Tuple[str, str, str]]) -> List[str]:
+    """
+    Convert triples into Cypher CREATE statements for Neo4j.
+
+    Returns:
+        List[str]: List of Cypher queries
+    """
+    cypher_queries = []
+
+    for e1, relation, e2 in triples:
+        query = (
+            f"MERGE (a:Entity {{name: '{e1}'}}) "
+            f"MERGE (b:Entity {{name: '{e2}'}}) "
+            f"MERGE (a)-[:{relation.upper()}]->(b)"
+        )
+        cypher_queries.append(query)
+
+    return cypher_queries
