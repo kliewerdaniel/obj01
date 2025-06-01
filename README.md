@@ -64,3 +64,29 @@ pip install -r requirements.txt
 
 # Run the pipeline (basic mode)
 python run_daily_pipeline.py
+```
+To explore specific modules or configure your own feeds, see the configs/ and docs/ directories.
+
+⸻
+
+🤝 Contributing
+
+We welcome contributions from journalists, coders, translators, and data nerds. If you’re aligned with our mission of objective truth and digital autonomy, we’d love your help.
+
+Please read CONTRIBUTING.md before submitting a PR.
+
+⸻
+
+📜 License
+
+MIT License — Open for all, exploitable by none. Build tools for truth, not for control.
+
+⸻
+
+🙏 Acknowledgements
+
+Inspired by the ideal that truth should be decentralized, transparent, and navigable. Thanks to the open-source communities behind Whisper, sentence-transformers, Chroma, LangChain, and many others who make this possible.
+
+---
+
+Let me know what you'd like to name the project officially (this draft uses **Objective Newsfeed**) or if you'd prefer a more poetic/technical name. I can also scaffold the folder structure next or write the `CONTRIBUTING.md`.
