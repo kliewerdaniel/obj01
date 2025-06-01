@@ -1,4 +1,4 @@
-
+# pipeline.py
 from modules.scraping import fetch_articles
 from modules.translation import translate_article
 from modules.summarization import summarize
