@@ -49,7 +49,7 @@
 <body>
   <svg></svg>
   <script>
-    fetch("/graph.json")
+    fetch("/api/graph/graph.json")
       .then(response => response.json())
       .then(data => {
         const svg = d3.select("svg");

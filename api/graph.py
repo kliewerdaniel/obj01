@@ -11,6 +11,7 @@ with open(news_digest_filepath, 'r') as f:
     news_digest_json = json.load(f)
 router = APIRouter()
 
+
 @router.get("/graph.json")
 def get_graph():
 
@@ -27,3 +28,12 @@ def get_graph():
     links = [{"source": u, "target": v, "label": d["label"]} for u, v, d in G.edges(data=True)]
 
     return JSONResponse(content={"nodes": nodes, "links": links})
+
+
+
+@router.get("/")
+def get_articles():
+    # Return actual news digest data
+    return {
+        "data": news_digest_json
+    }
