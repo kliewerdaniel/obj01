@@ -51,8 +51,8 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ article }) => {
   }, [article.published]);
 
   return (
-    <article className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-      <div className="p-6">
+    <article className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-2xl transition-shadow duration-200">
+      <div className="p-8">
         
 
         <h2 className="mt-4 text-xl font-semibold text-gray-900 dark:text-white">
